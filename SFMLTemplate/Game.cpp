@@ -1,0 +1,191 @@
+
+#include <cassert>
+#include "Game.h"
+#include <iostream>
+#include <SFML/Audio.hpp>
+
+
+
+namespace ApplesGame
+{
+	void UpdateGame(Gamestate& game, float deltaTime, sf::RenderWindow& window)
+	{
+		if (game.isGameFinished)
+		{
+			game.gameFinishedTime += deltaTime;
+
+			if (game.gameFinishedTime >= PAUSE_LENGTH)
+			{
+				InitGame(game);
+			}
+
+			return;
+		}
+
+
+
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			game.player.playerDir = PlayerDir::Right;
+
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			game.player.playerDir = PlayerDir::Up;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			game.player.playerDir = PlayerDir::Left;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			game.player.playerDir = PlayerDir::Down;
+		}
+
+
+		switch (game.player.playerDir)
+		{
+
+		case PlayerDir::Right:
+		{
+			game.player.playerPos.x += game.player.playerSpeed * deltaTime;
+			break;
+		}
+		case PlayerDir::Up:
+		{
+			game.player.playerPos.y -= game.player.playerSpeed * deltaTime;
+			break;
+		}
+		case PlayerDir::Left:
+		{
+			game.player.playerPos.x -= game.player.playerSpeed * deltaTime;
+			break;
+		}
+		case PlayerDir::Down:
+		{
+			game.player.playerPos.y += game.player.playerSpeed * deltaTime;
+			break;
+		}
+
+		}
+
+
+		for (int i = 0; i < game.apples.numApples; ++i)
+		{
+			if (!game.apples.isAppleEaten[i])
+			{
+				float dx = fabs(game.player.playerPos.x - game.apples.applePos[i].x);
+				float dy = fabs(game.player.playerPos.y - game.apples.applePos[i].y);
+				if (dx <= (APPLE_SIZE + PLAYER_SIZE) / 2.f &&
+					dy <= (APPLE_SIZE + PLAYER_SIZE) / 2.f)
+				{
+
+					game.EatenApples++;
+					game.apples.applePos[i].x = rand() / (float)RAND_MAX * SCREEN_WIGHT;
+					game.apples.applePos[i].y = rand() / (float)RAND_MAX * SCREEN_HIGHT;
+					game.apples.appleSprite[i].setPosition(game.apples.applePos[i].x, game.apples.applePos[i].y);
+					
+					game.AppleEatSound.play();
+
+
+
+				}
+			}
+		}
+
+		
+		if(game.gameMode & SPEED_UP)
+		{
+			game.player.playerSpeed += ACCELERATION * deltaTime;
+		}
+
+		if (game.player.playerPos.x - PLAYER_SIZE / 2.f < 0.f || game.player.playerPos.x + PLAYER_SIZE / 2.f > SCREEN_WIGHT ||
+			game.player.playerPos.y - PLAYER_SIZE / 2.f < 0.f || game.player.playerPos.y + PLAYER_SIZE / 2.f > SCREEN_HIGHT)
+		{
+
+
+			game.isGameFinished = true;
+			game.gameFinishedTime = 0.f;
+			game.GameOverSound.play();
+			return;
+		}
+
+
+		for (int i = 0; i < NUM_ROCKS; ++i)
+		{
+
+
+			float dx = fabs(game.player.playerPos.x - game.rocks.rockPos[i].x);
+			float dy = fabs(game.player.playerPos.y - game.rocks.rockPos[i].y);
+			if (dx <= (ROCK_SIZE + PLAYER_SIZE) / 2.f &&
+				dy <= (ROCK_SIZE + PLAYER_SIZE) / 2.f)
+			{
+				game.gameFinishedTime = 0.f;
+				game.isGameFinished = true;
+				game.GameOverSound.play();
+				return;
+
+			}
+
+
+		}
+
+
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+
+			game.isGameFinished = true;
+			window.close();
+		}
+
+		game.scoreText.setString("Score: " + std::to_string(game.EatenApples));
+		game.gameOverScoreText.setString("Your Score: " + std::to_string(game.EatenApples));
+
+	}
+	void DrawGame(Gamestate& game, sf::RenderWindow& window)
+	{
+		if (game.isGameFinished)
+		{
+			game.backround.setFillColor(sf::Color(70, 130, 180, 160));
+		}
+		
+
+		window.draw(game.backround);
+		DrawPlayer(game.player, window);
+		DrawApples(game.apples, window);
+		DrawRocks(game.rocks, window);
+		if (!game.isGameFinished)
+		{
+			window.draw(game.keyHintText);
+			window.draw(game.scoreText);
+			window.draw(game.modeText);
+
+		}
+		else
+		{
+			window.draw(game.gameOverText);
+			window.draw(game.gameOverScoreText);
+		}
+
+		
+		window.display();
+	}
+
+}
+	
+
+
+
+	
+
+		
+
+
+		
+
+		
+
+
+	
