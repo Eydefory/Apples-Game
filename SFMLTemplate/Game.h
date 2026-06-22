@@ -22,7 +22,6 @@ namespace ApplesGame
 		Player player;
 		Apples apples;
 		Rocks rocks;
-
 		int gameMode;
 
 		int EatenApples = 0;
