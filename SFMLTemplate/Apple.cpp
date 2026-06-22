@@ -27,12 +27,7 @@ namespace ApplesGame
 		{
 			apples.numApples = 50;
 		}
-        else if(game.gameMode & RAND_APPLES)
-		{
-			apples.numApples = rand() % 40 + 10;
-
-
-		}
+        
 
 		apples.isAppleEaten = new bool[apples.numApples];
 		apples.applePos = new Position2D[apples.numApples];
@@ -42,7 +37,7 @@ namespace ApplesGame
 
 		for (int i = 0; i < apples.numApples; i++)
 		{
-			apples.isAppleEaten[i] = false;
+			
 
             apples.isAppleEaten[i] = false;
 			apples.applePos[i].x = rand() / (float)RAND_MAX * SCREEN_WIGHT;

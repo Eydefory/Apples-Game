@@ -11,8 +11,7 @@ enum GameMode
 	APPLES_20 = 1 << 0,
 	APPLES_50 = 1 << 1,
 	SPEED_UP = 1 << 2,
-	NO_SPEED_UP = 1 << 3,
-	RAND_APPLES = 1 << 4
+	FINITE = 1 << 3
 };
 
 namespace ApplesGame
@@ -101,37 +100,13 @@ namespace ApplesGame
 		game.gameOverScoreText.setOutlineColor(sf::Color::Black);
 		game.gameOverScoreText.setOutlineThickness(1.5f);
 
-		game.gameMode = APPLES_20 | SPEED_UP;
-		game.gameMode = APPLES_20 | NO_SPEED_UP;
-		game.gameMode = APPLES_50 | SPEED_UP;
-		game.gameMode = RAND_APPLES | SPEED_UP;
+		
+		
 
 
 
-		int modeIndex = rand() % 4;
-
-		game.gameMode = 0;
-
-		if (modeIndex == 0)
-		{
-			game.gameMode = APPLES_20 | SPEED_UP;
-			game.modeText.setString("Mode: 20 Apples with Speed Up");
-		}
-		else if (modeIndex == 1)
-		{
-			game.gameMode = APPLES_20 | NO_SPEED_UP;
-			game.modeText.setString("Mode: 20 Apples with no Speed Up");
-		}
-		else if (modeIndex == 2)
-		{
-			game.gameMode = APPLES_50 | SPEED_UP;
-			game.modeText.setString("Mode: 50 Apples with Speed Up");
-		}
-		else if (modeIndex == 3)
-		{
-			game.gameMode = RAND_APPLES | SPEED_UP;
-			game.modeText.setString("Mode: Random amount of apples with Speed Up");
-		}
+		game.gameMode = APPLES_20 | APPLES_50;
+		game.modeText.setString("Mode: Endless with 20 apples and speed up");
 
 
 		InitPlayer(game.player, game);

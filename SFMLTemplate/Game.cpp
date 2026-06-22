@@ -82,12 +82,25 @@ namespace ApplesGame
 				{
 
 					game.EatenApples++;
-					game.apples.applePos[i].x = rand() / (float)RAND_MAX * SCREEN_WIGHT;
-					game.apples.applePos[i].y = rand() / (float)RAND_MAX * SCREEN_HIGHT;
+					if (game.gameMode & FINITE)
+					{
+						game.apples.isAppleEaten[i] = true;
+					}
+					else
+					{
+						game.apples.applePos[i].x = rand() / (float)RAND_MAX * SCREEN_WIGHT;
+						game.apples.applePos[i].y = rand() / (float)RAND_MAX * SCREEN_HIGHT;
+					}
+
+
 					game.apples.appleSprite[i].setPosition(game.apples.applePos[i].x, game.apples.applePos[i].y);
 					
 					game.AppleEatSound.play();
 
+					if (game.gameMode & SPEED_UP)
+					{
+						game.player.playerSpeed += ACCELERATION;
+					}
 
 
 				}
@@ -95,10 +108,6 @@ namespace ApplesGame
 		}
 
 		
-		if(game.gameMode & SPEED_UP)
-		{
-			game.player.playerSpeed += ACCELERATION * deltaTime;
-		}
 
 		if (game.player.playerPos.x - PLAYER_SIZE / 2.f < 0.f || game.player.playerPos.x + PLAYER_SIZE / 2.f > SCREEN_WIGHT ||
 			game.player.playerPos.y - PLAYER_SIZE / 2.f < 0.f || game.player.playerPos.y + PLAYER_SIZE / 2.f > SCREEN_HIGHT)
@@ -142,6 +151,17 @@ namespace ApplesGame
 
 		game.scoreText.setString("Score: " + std::to_string(game.EatenApples));
 		game.gameOverScoreText.setString("Your Score: " + std::to_string(game.EatenApples));
+
+
+		if(game.gameMode & FINITE)
+		{
+			if (game.EatenApples >= game.apples.numApples)
+			{
+				game.isGameFinished = true;
+				game.GameOverSound.play();
+				return;
+			}
+		}
 
 	}
 	void DrawGame(Gamestate& game, sf::RenderWindow& window)
