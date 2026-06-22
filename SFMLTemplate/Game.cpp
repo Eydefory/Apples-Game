@@ -36,9 +36,6 @@ namespace ApplesGame
 		
 		
 
-
-
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			game.player.playerDir = PlayerDir::Right;
