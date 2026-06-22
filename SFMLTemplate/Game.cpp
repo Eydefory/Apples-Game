@@ -22,6 +22,20 @@ namespace ApplesGame
 			return;
 		}
 
+		if (game.isWinning)
+		{
+			game.gameWinningTime += deltaTime;
+
+			if (game.gameWinningTime >= PAUSE_LENGTH)
+			{
+				InitGame(game);
+			}
+
+			return;
+		}
+		
+		
+
 
 
 
@@ -141,6 +155,7 @@ namespace ApplesGame
 		}
 
 
+		
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
@@ -151,14 +166,23 @@ namespace ApplesGame
 
 		game.scoreText.setString("Score: " + std::to_string(game.EatenApples));
 		game.gameOverScoreText.setString("Your Score: " + std::to_string(game.EatenApples));
+		game.winningScoreText.setString("Your Score: " + std::to_string(game.EatenApples));
+
+
+		
 
 
 		if(game.gameMode & FINITE)
 		{
 			if (game.EatenApples >= game.apples.numApples)
 			{
-				game.isGameFinished = true;
-				game.GameOverSound.play();
+				
+				game.gameWinningTime = 0.f;
+				game.isWinning = true;
+
+
+				
+				
 				return;
 			}
 		}
@@ -168,9 +192,13 @@ namespace ApplesGame
 	{
 		if (game.isGameFinished)
 		{
-			game.backround.setFillColor(sf::Color(70, 130, 180, 160));
+			game.backround.setFillColor(sf::Color(183, 87, 82));
 		}
-		
+		if (game.isWinning)
+		{
+			game.backround.setFillColor(sf::Color(119, 221, 119));
+			
+		}
 
 		window.draw(game.backround);
 		DrawPlayer(game.player, window);
@@ -181,13 +209,23 @@ namespace ApplesGame
 			window.draw(game.keyHintText);
 			window.draw(game.scoreText);
 			window.draw(game.modeText);
-
+			
+			
 		}
 		else
 		{
 			window.draw(game.gameOverText);
 			window.draw(game.gameOverScoreText);
 		}
+		
+		if (game.isWinning)
+		{
+			
+			window.draw(game.winningText);
+			window.draw(game.winningScoreText);
+		}
+
+		
 
 		
 		window.display();

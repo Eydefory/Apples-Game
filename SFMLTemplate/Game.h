@@ -27,7 +27,9 @@ namespace ApplesGame
 
 		int EatenApples = 0;
 		bool isGameFinished = false;
+		bool isWinning = false;
 		float gameFinishedTime = 0.f;
+		float gameWinningTime = 0.f;
 
 		sf::Sound AppleEatSound;
 		sf::Sound GameOverSound;
@@ -49,6 +51,8 @@ namespace ApplesGame
 		sf::Text keyHintText;
 		sf::Text modeText;
 		sf::Text gameOverScoreText;
+		sf::Text winningText;
+		sf::Text winningScoreText;
 
 	};
 
@@ -72,7 +76,7 @@ namespace ApplesGame
 		game.gameOverText.setFont(game.font);
 		game.gameOverText.setCharacterSize(60.f);
 		game.gameOverText.setFillColor(sf::Color::White);
-		game.gameOverText.setPosition(270.f, 250.f);
+		game.gameOverText.setPosition(250.f, 250.f);
 		game.gameOverText.setString("Game Over");
 		game.gameOverText.setOutlineColor(sf::Color::Black);
 		game.gameOverText.setOutlineThickness(2.f);
@@ -96,16 +100,33 @@ namespace ApplesGame
 		game.gameOverScoreText.setFont(game.font);
 		game.gameOverScoreText.setCharacterSize(30.f);
 		game.gameOverScoreText.setFillColor(sf::Color::White);
-		game.gameOverScoreText.setPosition(337.f, 320.f);
+		game.gameOverScoreText.setPosition(320.f, 320.f);
 		game.gameOverScoreText.setOutlineColor(sf::Color::Black);
 		game.gameOverScoreText.setOutlineThickness(1.5f);
 
+		game.winningText.setFont(game.font);
+		game.winningText.setCharacterSize(60.f);
+		game.winningText.setFillColor(sf::Color::White);
+		game.winningText.setPosition(270.f, 250.f);
+		game.winningText.setString("You Win!");
+		game.winningText.setOutlineColor(sf::Color::Black);
+		game.winningText.setOutlineThickness(2.f);
+
+		game.winningScoreText.setFont(game.font);
+		game.winningScoreText.setCharacterSize(30.f);
+		game.winningScoreText.setFillColor(sf::Color::White);
+		game.winningScoreText.setPosition(300.f, 320.f);
+		game.winningScoreText.setOutlineColor(sf::Color::Black);
+		game.winningScoreText.setOutlineThickness(1.5f);
+
+		
+
 		
 		
 
 
 
-		game.gameMode = APPLES_20 | APPLES_50;
+		game.gameMode = APPLES_20 | FINITE;
 		game.modeText.setString("Mode: Endless with 20 apples and speed up");
 
 
@@ -121,10 +142,11 @@ namespace ApplesGame
 
 		game.EatenApples = 0;
 		game.isGameFinished = false;
+		game.isWinning = false;
 
 
 		game.backround.setSize(sf::Vector2f(SCREEN_WIGHT, SCREEN_HIGHT));
-		game.backround.setFillColor(sf::Color::Black);
+		game.backround.setFillColor(sf::Color(70, 130, 180, 160));
 		game.backround.setPosition(0.f, 0.f);
 	}
 
