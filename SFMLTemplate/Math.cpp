@@ -9,7 +9,6 @@ namespace ApplesGame
 		sf::Vector2f scale = { desireWidth / spriteRect.width, desireHeight / spriteRect.height };
 		sprite.setScale(scale);
 	}
-
 	void SetSpriteOrigin(sf::Sprite& sprite, float originX, float originY)
 	{
 		sf::FloatRect spriteRect = sprite.getLocalBounds();
