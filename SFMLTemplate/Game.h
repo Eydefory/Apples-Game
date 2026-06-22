@@ -35,8 +35,6 @@ namespace ApplesGame
 
 		
 		
-
-
 		//resources
 		sf::Texture playertexture;
 		sf::Texture appleTexture;
