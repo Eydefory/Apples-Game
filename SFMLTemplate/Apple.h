@@ -16,6 +16,8 @@ namespace ApplesGame
 
 	struct Gamestate;
 	
+
+
 	void InitApples(Apples& apples, const Gamestate& game);
     void DrawApples(Apples& apples, sf::RenderWindow& window);
 }
