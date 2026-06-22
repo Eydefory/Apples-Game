@@ -34,7 +34,6 @@ namespace ApplesGame
 		apples.appleSprite = new sf::Sprite[apples.numApples];
 
 
-
 		for (int i = 0; i < apples.numApples; i++)
 		{
 			
