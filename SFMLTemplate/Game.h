@@ -117,6 +117,10 @@ namespace ApplesGame
 		game.winningScoreText.setOutlineThickness(1.5f);
 
 		
+		//////////////////////////////////////  GAME MODES  ///////////////////////////////////////////////////////////////////
+
+
+
 
 		//Finite mode with 20 apples and speed up
 		//game.gameMode = APPLES_20 | FINITE | SPEED_UP;
@@ -144,6 +148,17 @@ namespace ApplesGame
 		//Endless mode with 20 apples and speed up
 		game.gameMode = APPLES_20 | SPEED_UP;
 		game.modeText.setString("Mode: Endless with 20 apples and speed up");
+
+
+		//Endless mode with 20 apples and no speed up
+		//game.gameMode = APPLES_20;
+		//game.modeText.setString("Mode: Endless with 20 apples and no speed up");
+
+
+
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 		InitPlayer(game.player, game);
