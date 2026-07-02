@@ -82,6 +82,67 @@ namespace ApplesGame
 		}
 
 
+
+		
+
+
+      
+		
+	
+		if (game.stateType == GameStateType::Menu)
+			{
+			
+
+			      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+			      {
+			              game.gameMode = APPLES_20 | SPEED_UP;
+			              InitGame(game);
+			              game.stateType = GameStateType::Game;
+			      }
+
+
+
+
+			      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+			      {
+			              game.gameMode = APPLES_20 | FINITE | SPEED_UP;
+			              InitGame(game);
+			              game.stateType = GameStateType::Game;
+			      }
+
+
+
+
+			      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+			      {
+			              game.gameMode = APPLES_50;
+			              InitGame(game);
+			              game.stateType = GameStateType::Game;
+			      }
+
+
+
+
+			      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+			      {
+			              game.gameMode = APPLES_50 | SPEED_UP;
+			              InitGame(game);
+			              game.stateType = GameStateType::Game;
+			      }
+
+			      return;
+			}
+			
+		
+		
+
+
+
+
+
+
+
+
 		for (int i = 0; i < game.apples.numApples; ++i)
 		{
 			if (!game.apples.isAppleEaten[i])
@@ -205,7 +266,6 @@ namespace ApplesGame
 		{
 			window.draw(game.keyHintText);
 			window.draw(game.scoreText);
-			window.draw(game.modeText);
 			
 			
 		}
@@ -222,7 +282,12 @@ namespace ApplesGame
 			window.draw(game.winningScoreText);
 		}
 
-		
+		if (game.stateType == GameStateType::Menu)
+		{
+			window.draw(game.overlay);
+			window.draw(game.modeText);
+		}
+
 
 		
 		window.display();

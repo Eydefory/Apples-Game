@@ -13,6 +13,12 @@ enum GameMode
 	SPEED_UP = 1 << 2,
 	FINITE = 1 << 3
 };
+enum class GameStateType
+{
+	Menu,
+	Game
+};
+
 
 namespace ApplesGame
 {
@@ -33,13 +39,14 @@ namespace ApplesGame
 		sf::Sound AppleEatSound;
 		sf::Sound GameOverSound;
 
-		
+		GameStateType stateType = GameStateType::Menu;
 		
 		//resources
 		sf::Texture playertexture;
 		sf::Texture appleTexture;
 		sf::Texture rockTexture;
 		sf::RectangleShape backround;
+		sf::RectangleShape overlay;
 		sf::SoundBuffer eatenAppleSoundBuffer;
 		sf::SoundBuffer gameOverSoundBuffer;
 		sf::Font font;
@@ -87,11 +94,29 @@ namespace ApplesGame
 		game.keyHintText.setOutlineThickness(2.f);
 
 		game.modeText.setFont(game.font);
-		game.modeText.setCharacterSize(20.f);
+		game.modeText.setCharacterSize(30.f);
 		game.modeText.setFillColor(sf::Color::White);	
-		game.modeText.setPosition(160.f, 70.f);
+		game.modeText.setPosition(260.f, 130.f);
 		game.modeText.setOutlineColor(sf::Color::Black);
 		game.modeText.setOutlineThickness(2.f);
+		game.modeText.setString(
+
+			"CHOOSE MODE:\n\n"
+
+			"1: 20 apples with speed up\n\n"
+
+
+
+			"2: Finite 20 apples and Speed up\n\n"
+
+
+
+			"3: 50 apples\n\n"
+
+
+
+			"4: 50 apples with speed up"
+		);
 
 
 		game.gameOverScoreText.setFont(game.font);
@@ -118,32 +143,7 @@ namespace ApplesGame
 
 		
 
-		//Finite mode with 20 apples and speed up
-		//game.gameMode = APPLES_20 | FINITE | SPEED_UP;
-		//game.modeText.setString("Mode: Finite with 20 apples and speed up");
-
-
-		//Finite mode with 20 apples and no speed up
-		//game.gameMode = APPLES_20 | FINITE;
-		//game.modeText.setString("Mode: Finite with 20 apples and no speed up");
-
-
-
-		//Endless mode with 50 apples and speed up
-		//game.gameMode = APPLES_50 | SPEED_UP;
-		//game.modeText.setString("Mode: Endless with 50 apples and speed up");
-
-
-
-		//Finite mode with 50 apples and speed up
-		//game.gameMode = APPLES_50 | FINITE | SPEED_UP;
-		//game.modeText.setString("Mode: Finite with 50 apples and speed up");
 		
-
-
-		//Endless mode with 20 apples and speed up
-		game.gameMode = APPLES_20 | SPEED_UP;
-		game.modeText.setString("Mode: Endless with 20 apples and speed up");
 
 
 		InitPlayer(game.player, game);
@@ -164,6 +164,12 @@ namespace ApplesGame
 		game.backround.setSize(sf::Vector2f(SCREEN_WIGHT, SCREEN_HIGHT));
 		game.backround.setFillColor(sf::Color(70, 130, 180, 160));
 		game.backround.setPosition(0.f, 0.f);
+
+
+		game.overlay.setSize(sf::Vector2f(SCREEN_WIGHT, SCREEN_HIGHT));
+		game.overlay.setFillColor(sf::Color::Black);
+		game.overlay.setPosition(0.f, 0.f);
+		
 	}
 
 	void UpdateGame(Gamestate& game, float deltaTime, sf::RenderWindow& window);

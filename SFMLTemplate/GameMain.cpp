@@ -17,6 +17,8 @@ int main()
 	srand(seed);
 
 
+
+
 	//Game init
 	Gamestate game;
 	InitGame(game);
@@ -44,6 +46,10 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+
+
+
+
 
 		UpdateGame(game, deltaTime, window);
 		DrawGame(game, window);
