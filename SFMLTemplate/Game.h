@@ -111,7 +111,7 @@ namespace ApplesGame
 
 
 
-			"3: 50 apples\n\n"
+			"3: 50 apples without speed up\n\n"
 
 
 
