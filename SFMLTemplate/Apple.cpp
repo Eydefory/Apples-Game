@@ -8,12 +8,7 @@
 namespace ApplesGame
 {
 
-	void FreeApples(Apples& apples)
-	{
-		delete[] apples.isAppleEaten;
-		delete[] apples.applePos;
-		delete[] apples.appleSprite;
-	}
+	
 	
 	
 	void InitApples(Apples& apples, const Gamestate& game)

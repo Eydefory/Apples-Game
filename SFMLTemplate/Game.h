@@ -142,10 +142,7 @@ namespace ApplesGame
 		game.winningScoreText.setOutlineThickness(1.5f);
 
 		
-
 		
-
-
 		InitPlayer(game.player, game);
 		InitApples(game.apples, game);
 		InitRocks(game.rocks, game);
