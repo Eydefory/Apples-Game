@@ -8,6 +8,7 @@
 namespace ApplesGame
 {
 	struct Rocks
+
 	{
 		sf::Sprite rockSprite[NUM_ROCKS]; 
 		bool isRockTouched[NUM_ROCKS];

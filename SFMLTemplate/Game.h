@@ -6,6 +6,12 @@
 #include "Apple.h"
 #include "Rock.h"
 #include "Constants.h"
+struct Record
+{
+	std::string name;
+
+	int score;
+};
 enum GameMode
 {
 	APPLES_20 = 1 << 0,
@@ -33,11 +39,13 @@ namespace ApplesGame
 		int EatenApples = 0;
 		bool isGameFinished = false;
 		bool isWinning = false;
+		bool scoreAdded = false;
 		float gameFinishedTime = 0.f;
 		float gameWinningTime = 0.f;
 
 		sf::Sound AppleEatSound;
 		sf::Sound GameOverSound;
+		std::vector<Record> leaderboard;
 
 		GameStateType stateType = GameStateType::Menu;
 		
@@ -143,10 +151,16 @@ namespace ApplesGame
 
 		
 		InitPlayer(game.player, game);
-		InitApples(game.apples, game);
-		InitRocks(game.rocks, game);
-
 		
+
+		game.leaderboard =
+		{
+			{"Alice", 52},
+			{"Bob", 45},
+			{"Charlie", 38},
+			{"David", 30},
+
+		};
 
 		game.AppleEatSound.setBuffer(game.eatenAppleSoundBuffer);
 		game.GameOverSound.setBuffer(game.gameOverSoundBuffer);
@@ -155,7 +169,7 @@ namespace ApplesGame
 		game.EatenApples = 0;
 		game.isGameFinished = false;
 		game.isWinning = false;
-
+		game.scoreAdded = false;	
 
 		game.backround.setSize(sf::Vector2f(SCREEN_WIGHT, SCREEN_HIGHT));
 		game.backround.setFillColor(sf::Color(70, 130, 180, 160));
