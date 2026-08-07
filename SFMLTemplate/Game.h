@@ -6,12 +6,8 @@
 #include "Apple.h"
 #include "Rock.h"
 #include "Constants.h"
-struct Record
-{
-	std::string name;
+#include <unordered_map>
 
-	int score;
-};
 enum GameMode
 {
 	APPLES_20 = 1 << 0,
@@ -43,9 +39,11 @@ namespace ApplesGame
 		float gameFinishedTime = 0.f;
 		float gameWinningTime = 0.f;
 
+		std::unordered_map<std::string, int> leaderboard;
+
 		sf::Sound AppleEatSound;
 		sf::Sound GameOverSound;
-		std::vector<Record> leaderboard;
+		
 
 		GameStateType stateType = GameStateType::Menu;
 		
@@ -65,8 +63,11 @@ namespace ApplesGame
 		sf::Text gameOverScoreText;
 		sf::Text winningText;
 		sf::Text winningScoreText;
+		sf::Text leaderboardText;
 
 	};
+
+	
 
 	inline void InitGame(Gamestate& game)
 	{
@@ -149,17 +150,25 @@ namespace ApplesGame
 		game.winningScoreText.setOutlineColor(sf::Color::Black);
 		game.winningScoreText.setOutlineThickness(1.5f);
 
+		game.leaderboardText.setFont(game.font);
+		game.leaderboardText.setCharacterSize(22);
+		game.leaderboardText.setFillColor(sf::Color::White);
+		game.leaderboardText.setPosition(20.f, 200.f);
+		game.leaderboardText.setOutlineColor(sf::Color::Black);
+		game.leaderboardText.setOutlineThickness(1.5f);
+
 		
 		InitPlayer(game.player, game);
 		
 
-		game.leaderboard =
-		{
+		game.leaderboard = {
 			{"Alice", 52},
 			{"Bob", 45},
 			{"Charlie", 38},
 			{"David", 30},
-
+			{"Carol", 25},
+			{"Fesco", 17}
+			
 		};
 
 		game.AppleEatSound.setBuffer(game.eatenAppleSoundBuffer);

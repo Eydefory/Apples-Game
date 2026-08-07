@@ -3,7 +3,7 @@
 #include "Game.h"
 #include <iostream>
 #include <SFML/Audio.hpp>
-
+#include <vector>
 
 
 namespace ApplesGame
@@ -15,30 +15,51 @@ namespace ApplesGame
 
 			if (!game.scoreAdded)
 			{
-				game.leaderboard.push_back({ "Player", game.EatenApples });
+				game.leaderboard["Player"] = game.EatenApples;
+				game.scoreAdded = true;
 
-				for (int i = 0; i < game.leaderboard.size(); ++i)
-				{ 
-					for (int j = 0; j < game.leaderboard.size() - 1; ++j)
+				
+				std::vector<std::pair<std::string, int>> sorted(
+					game.leaderboard.begin(),
+					game.leaderboard.end()
+				);
+
+				
+				for (size_t i = 0; i < sorted.size(); i++)
+				{
+					for (size_t j = 0; j < sorted.size() - 1; j++)
 					{
-						if (game.leaderboard[j].score < game.leaderboard[j+1].score)
+						if (sorted[j].second < sorted[j + 1].second)
 						{
-							std::swap(game.leaderboard[j], game.leaderboard[j+1]);
+							std::swap(sorted[j], sorted[j + 1]);
 						}
 					}
 				}
 
-
-				game.scoreAdded = true;
+				
+				std::string leaderboardStr = "===== LEADERBOARD =====\n";
+				int place = 1;
+				for (const auto& entry : sorted)
+				{
+					leaderboardStr += std::to_string(place++) + ". " +
+						entry.first + " ..... " +
+						std::to_string(entry.second) + "\n";
+				}
+				game.leaderboardText.setString(leaderboardStr);
 			}
 
-
+			
 
 			game.gameFinishedTime += deltaTime;
 
 			if (game.gameFinishedTime >= PAUSE_LENGTH)
 			{
+				game.stateType = GameStateType::Menu;
+				
+				auto oldLeaderboard = game.leaderboard;
 				InitGame(game);
+				game.leaderboard = oldLeaderboard;
+				
 			}
 
 			return;
@@ -50,7 +71,9 @@ namespace ApplesGame
 
 			if (game.gameWinningTime >= PAUSE_LENGTH)
 			{
+				auto oldLeaderboard = game.leaderboard;
 				InitGame(game);
+				game.leaderboard = oldLeaderboard;
 			}
 
 			return;
@@ -246,12 +269,8 @@ namespace ApplesGame
 
 		}
 
-		if (!game.gameFinishedTime >= PAUSE_LENGTH)
-		{
-			FreeApples(game.apples);
-			game.stateType = GameStateType::Menu;
-		}
-		
+
+
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
@@ -265,8 +284,6 @@ namespace ApplesGame
 		game.winningScoreText.setString("Your Score: " + std::to_string(game.EatenApples));
 
 
-		
-
 
 		if(game.gameMode & FINITE)
 		{
@@ -275,6 +292,7 @@ namespace ApplesGame
 				
 				game.gameWinningTime = 0.f;
 				game.isWinning = true;
+				game.stateType = GameStateType::Menu;
 
 
 				
@@ -284,6 +302,11 @@ namespace ApplesGame
 		}
 
 	}
+
+
+	
+
+
 	void DrawGame(Gamestate& game, sf::RenderWindow& window)
 	{
 		if (game.isGameFinished)
@@ -304,6 +327,7 @@ namespace ApplesGame
 		{
 			window.draw(game.keyHintText);
 			window.draw(game.scoreText);
+
 			
 			
 		}
@@ -311,6 +335,8 @@ namespace ApplesGame
 		{
 			window.draw(game.gameOverText);
 			window.draw(game.gameOverScoreText);
+			window.draw(game.leaderboardText);
+
 		}
 		
 		if (game.isWinning)
@@ -318,6 +344,8 @@ namespace ApplesGame
 			
 			window.draw(game.winningText);
 			window.draw(game.winningScoreText);
+			window.draw(game.leaderboardText);
+
 		}
 
 		if (game.stateType == GameStateType::Menu)
@@ -325,23 +353,10 @@ namespace ApplesGame
 			window.draw(game.overlay);
 			window.draw(game.modeText);
 		}
-		for (int i = 0; i < game.leaderboard.size(); i++)
-		{
-			sf::Text text;
-			text.setFont(game.font);
-			text.setCharacterSize(20);
-			text.setFillColor(sf::Color::White);
 
-			text.setString(
-				game.leaderboard[i].name + " : " +
-				std::to_string(game.leaderboard[i].score)
-			);
 
-			text.setPosition(20.f, 400.f + i * 30);
 
-			window.draw(text);
-		}
-
+		
 		
 		window.display();
 	}
