@@ -7,24 +7,12 @@
 
 namespace ApplesGame
 {
-	void FreeApples(Apples& apples)
-	{
-		delete[] apples.isAppleEaten;
-		apples.isAppleEaten = nullptr;
-
-		delete[] apples.applePos;
-		apples.applePos = nullptr;
-
-		delete[] apples.appleSprite;
-		apples.appleSprite = nullptr;
-
-		apples.numApples = 0;
-	}
+	
 
 	
 	void InitApples(Apples& apples, const Gamestate& game)
 	{
-		FreeApples(apples);
+		
 
 		if (game.gameMode & APPLES_20)
 		{
@@ -36,9 +24,9 @@ namespace ApplesGame
 		}
 
 
-		apples.isAppleEaten = new bool[apples.numApples];
-		apples.applePos = new Position2D[apples.numApples];
-		apples.appleSprite = new sf::Sprite[apples.numApples];
+		apples.isAppleEaten.resize(apples.numApples);
+		apples.applePos.resize(apples.numApples);
+		apples.appleSprite.resize(apples.numApples);
 
 
 		for (int i = 0; i < apples.numApples; i++)
