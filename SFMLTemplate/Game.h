@@ -208,7 +208,7 @@ namespace ApplesGame
         ResetGame(game);
     }
 
-    void UpdateGame( 
+	void UpdateGame(Gamestate& game,
         float deltaTime,
         sf::RenderWindow& window);
 
